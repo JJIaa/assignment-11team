@@ -36,6 +36,12 @@ public class Comment extends Timestamped {
   @Column(nullable = false)
   private String content;
 
+  @Column(nullable = false)
+  private Integer depth = 0;
+
+  @Column
+  private String parent_comment_id;
+
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
   }

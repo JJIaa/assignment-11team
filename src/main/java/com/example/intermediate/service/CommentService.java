@@ -29,12 +29,12 @@ public class CommentService {
   public ResponseDto<?> createComment(CommentRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-          "로그인이 필요합니다.");
+              "로그인이 필요합니다.");
     }
 
     if (null == request.getHeader("Authorization")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-          "로그인이 필요합니다.");
+              "로그인이 필요합니다.");
     }
 
     Member member = validateMember(request);
@@ -48,19 +48,21 @@ public class CommentService {
     }
 
     Comment comment = Comment.builder()
-        .member(member)
-        .post(post)
-        .content(requestDto.getContent())
-        .build();
+            .member(member)
+            .post(post)
+            .content(requestDto.getContent())
+            .depth(requestDto.getDepth())
+            .parent_comment_id(requestDto.getParent_comment_id())
+            .build();
     commentRepository.save(comment);
     return ResponseDto.success(
-        CommentResponseDto.builder()
-            .id(comment.getId())
-            .author(comment.getMember().getNickname())
-            .content(comment.getContent())
-            .createdAt(comment.getCreatedAt())
-            .modifiedAt(comment.getModifiedAt())
-            .build()
+            CommentResponseDto.builder()
+                    .id(comment.getId())
+                    .author(comment.getMember().getNickname())
+                    .content(comment.getContent())
+                    .createdAt(comment.getCreatedAt())
+                    .modifiedAt(comment.getModifiedAt())
+                    .build()
     );
   }
 
@@ -76,13 +78,13 @@ public class CommentService {
 
     for (Comment comment : commentList) {
       commentResponseDtoList.add(
-          CommentResponseDto.builder()
-              .id(comment.getId())
-              .author(comment.getMember().getNickname())
-              .content(comment.getContent())
-              .createdAt(comment.getCreatedAt())
-              .modifiedAt(comment.getModifiedAt())
-              .build()
+              CommentResponseDto.builder()
+                      .id(comment.getId())
+                      .author(comment.getMember().getNickname())
+                      .content(comment.getContent())
+                      .createdAt(comment.getCreatedAt())
+                      .modifiedAt(comment.getModifiedAt())
+                      .build()
       );
     }
     return ResponseDto.success(commentResponseDtoList);
@@ -92,12 +94,12 @@ public class CommentService {
   public ResponseDto<?> updateComment(Long id, CommentRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-          "로그인이 필요합니다.");
+              "로그인이 필요합니다.");
     }
 
     if (null == request.getHeader("Authorization")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-          "로그인이 필요합니다.");
+              "로그인이 필요합니다.");
     }
 
     Member member = validateMember(request);
@@ -121,13 +123,13 @@ public class CommentService {
 
     comment.update(requestDto);
     return ResponseDto.success(
-        CommentResponseDto.builder()
-            .id(comment.getId())
-            .author(comment.getMember().getNickname())
-            .content(comment.getContent())
-            .createdAt(comment.getCreatedAt())
-            .modifiedAt(comment.getModifiedAt())
-            .build()
+            CommentResponseDto.builder()
+                    .id(comment.getId())
+                    .author(comment.getMember().getNickname())
+                    .content(comment.getContent())
+                    .createdAt(comment.getCreatedAt())
+                    .modifiedAt(comment.getModifiedAt())
+                    .build()
     );
   }
 
@@ -135,12 +137,12 @@ public class CommentService {
   public ResponseDto<?> deleteComment(Long id, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-          "로그인이 필요합니다.");
+              "로그인이 필요합니다.");
     }
 
     if (null == request.getHeader("Authorization")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
-          "로그인이 필요합니다.");
+              "로그인이 필요합니다.");
     }
 
     Member member = validateMember(request);

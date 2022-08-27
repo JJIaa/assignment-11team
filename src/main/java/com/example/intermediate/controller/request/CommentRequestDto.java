@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class CommentRequestDto {
   private Long postId;
   private String content;
+  private Integer depth;
+  private String parent_comment_id;
 }
