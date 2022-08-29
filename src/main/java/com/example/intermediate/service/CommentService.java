@@ -47,12 +47,23 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
+    Integer depth;
+    Long parent_comment_id;
+    if (requestDto.getParent_comment_id() == null) {
+      depth = 0;
+      parent_comment_id = null;
+    } else {
+      Comment parent_comment = isParentComment(requestDto.getParent_comment_id());
+      depth = parent_comment.getDepth() + 1;
+      parent_comment_id = requestDto.getParent_comment_id();
+    }
+
     Comment comment = Comment.builder()
             .member(member)
             .post(post)
             .content(requestDto.getContent())
-            .depth(requestDto.getDepth())
-            .parent_comment_id(requestDto.getParent_comment_id())
+            .depth(depth)
+            .parent_comment_id(parent_comment_id)
             .build();
     commentRepository.save(comment);
     return ResponseDto.success(
@@ -60,6 +71,8 @@ public class CommentService {
                     .id(comment.getId())
                     .author(comment.getMember().getNickname())
                     .content(comment.getContent())
+                    .depth(comment.getDepth())
+                    .parent_comment_id(comment.getParent_comment_id())
                     .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .build()
@@ -82,6 +95,8 @@ public class CommentService {
                       .id(comment.getId())
                       .author(comment.getMember().getNickname())
                       .content(comment.getContent())
+                      .depth(comment.getDepth())
+                      .parent_comment_id(comment.getParent_comment_id())
                       .createdAt(comment.getCreatedAt())
                       .modifiedAt(comment.getModifiedAt())
                       .build()
@@ -127,6 +142,8 @@ public class CommentService {
                     .id(comment.getId())
                     .author(comment.getMember().getNickname())
                     .content(comment.getContent())
+                    .depth(comment.getDepth())
+                    .parent_comment_id(comment.getParent_comment_id())
                     .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .build()
@@ -167,6 +184,12 @@ public class CommentService {
   public Comment isPresentComment(Long id) {
     Optional<Comment> optionalComment = commentRepository.findById(id);
     return optionalComment.orElse(null);
+  }
+
+  @Transactional(readOnly = true)
+  public Comment isParentComment(Long parent_id) {
+    Optional<Comment> parentComment = commentRepository.findById(parent_id);
+    return parentComment.orElse(null);
   }
 
   @Transactional

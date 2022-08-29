@@ -40,7 +40,7 @@ public class Comment extends Timestamped {
   private Integer depth = 0;
 
   @Column
-  private String parent_comment_id;
+  private Long parent_comment_id;
 
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
