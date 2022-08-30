@@ -14,6 +14,8 @@ public class CommentResponseDto {
   private Long id;
   private String author;
   private String content;
+  private Integer depth;
+  private Long parent_comment_id;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
 }
