@@ -47,6 +47,7 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
+        .comment_cnt(0)
         .member(member)
         .build();
     postRepository.save(post);
@@ -56,6 +57,7 @@ public class PostService {
             .title(post.getTitle())
             .content(post.getContent())
             .author(post.getMember().getNickname())
+            .comment_cnt(post.getComment_cnt())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
             .build()
@@ -70,6 +72,7 @@ public class PostService {
     }
 
     List<Comment> commentList = commentRepository.findAllByPost(post);
+
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     for (Comment comment : commentList) {
@@ -78,6 +81,8 @@ public class PostService {
               .id(comment.getId())
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
+              .depth(comment.getDepth())
+              .parent_comment_id(comment.getParent_comment_id())
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
               .build()
@@ -89,6 +94,7 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+            .comment_cnt(post.getComment_cnt())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())

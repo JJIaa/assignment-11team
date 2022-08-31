@@ -37,6 +37,9 @@ public class Post extends Timestamped {
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
 
+  @Column(nullable = false)
+  private Integer comment_cnt = 0;
+
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
@@ -48,6 +51,14 @@ public class Post extends Timestamped {
 
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
+  }
+
+  public void addComment() {
+    this.comment_cnt++;
+  }
+
+  public void deleteComment() {
+    this.comment_cnt--;
   }
 
 }

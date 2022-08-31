@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,7 @@ public class CommentService {
     if (requestDto.getParent_comment_id() == null) {
       depth = 0;
       parent_comment_id = null;
+      post.addComment();
     } else {
       Comment parent_comment = isParentComment(requestDto.getParent_comment_id());
       depth = parent_comment.getDepth() + 1;
@@ -176,7 +178,12 @@ public class CommentService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
+    Post post = comment.getPost();
+    if (comment.getDepth() == 0) {
+      post.deleteComment();   // 댓글 수 조정
+    }
     commentRepository.delete(comment);
+
     return ResponseDto.success("success");
   }
 
