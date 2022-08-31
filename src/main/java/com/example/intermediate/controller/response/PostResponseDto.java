@@ -16,8 +16,8 @@ public class PostResponseDto {
   private String title;
   private String content;
   private String author;
-  private Integer comment_cnt;
-  private List<CommentResponseDto> commentResponseDtoList;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
+  private Integer comment_cnt;
+  private List<CommentResponseDto> comments;
 }

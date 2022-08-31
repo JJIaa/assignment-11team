@@ -53,11 +53,11 @@ public class Post extends Timestamped {
     return !this.member.equals(member);
   }
 
-  public void addComment() {
+  public void comment_cnt_Up() {
     this.comment_cnt++;
   }
 
-  public void deleteComment() {
+  public void comment_cnt_Down() {
     this.comment_cnt--;
   }
 
