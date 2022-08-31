@@ -18,6 +18,7 @@ public class ReplyResponseDto {
     private Long parentId;
     private String author;
     private String content;
+    private Long heartNum;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

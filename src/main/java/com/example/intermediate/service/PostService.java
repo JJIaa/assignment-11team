@@ -10,6 +10,8 @@ import com.example.intermediate.controller.request.PostRequestDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.jwt.TokenProvider;
 import com.example.intermediate.repository.CommentRepository;
+import com.example.intermediate.repository.PostCommentHeartRepository;
+import com.example.intermediate.repository.PostHeartRepository;
 import com.example.intermediate.repository.PostRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class PostService {
 
   private final PostRepository postRepository;
   private final CommentRepository commentRepository;
+  private final PostHeartRepository postHeartRepository;
+  private final PostCommentHeartRepository postCommentHeartRepository;
 
   private final TokenProvider tokenProvider;
 
@@ -52,12 +56,14 @@ public class PostService {
         .member(member)
         .build();
     postRepository.save(post);
+
     return ResponseDto.success(
         PostResponseDto.builder()
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
             .author(post.getMember().getNickname())
+            .heartNum(post.getHeartNum())
             .comment_cnt(post.getComment_cnt())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
@@ -81,12 +87,15 @@ public class PostService {
               .id(comment.getId())
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
+              .heartNum(postCommentHeartRepository.countAllByCommentId(comment.getId()))
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
               .replies(replyListExtractor(post, comment))
               .build()
       );
     }
+
+    Long heartNum = postHeartRepository.countAllByPostId(post.getId());
 
     return ResponseDto.success(
         PostResponseDto.builder()
@@ -95,6 +104,7 @@ public class PostService {
             .content(post.getContent())
             .comment_cnt(post.getComment_cnt())
             .author(post.getMember().getNickname())
+            .heartNum(heartNum)
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
             .comments(commentResponseDtoList)
@@ -115,6 +125,7 @@ public class PostService {
                       .title(post.getTitle())
                       .content(post.getContent())
                       .author(post.getMember().getNickname())
+                      .heartNum(postHeartRepository.countAllByPostId(post.getId()))
                       .comment_cnt(post.getComment_cnt())
                       .createdAt(post.getCreatedAt())
                       .modifiedAt(post.getModifiedAt())
@@ -159,6 +170,7 @@ public class PostService {
                     .content(post.getContent())
                     .comment_cnt(post.getComment_cnt())
                     .author(post.getMember().getNickname())
+                    .heartNum(postHeartRepository.countAllByPostId(post.getId()))
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     .build()
@@ -214,6 +226,7 @@ public class PostService {
                       .parentId(parent_comment.getId())
                       .author(reply.getMember().getNickname())
                       .content(reply.getContent())
+                      .heartNum(postCommentHeartRepository.countAllByCommentId(reply.getId()))
                       .createdAt(reply.getCreatedAt())
                       .modifiedAt(reply.getModifiedAt())
                       .build()
