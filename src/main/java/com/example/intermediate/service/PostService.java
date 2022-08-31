@@ -9,6 +9,7 @@ import com.example.intermediate.controller.request.PostRequestDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.jwt.TokenProvider;
 import com.example.intermediate.repository.CommentRepository;
+import com.example.intermediate.repository.PostHeartRepository;
 import com.example.intermediate.repository.PostRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
+  private final PostHeartRepository postheartRepository;
 
   private final PostRepository postRepository;
   private final CommentRepository commentRepository;
@@ -83,17 +86,19 @@ public class PostService {
               .build()
       );
     }
+    Long heartNum = postheartRepository.countAllByPostId(post.getId());
 
     return ResponseDto.success(
         PostResponseDto.builder()
-            .id(post.getId())
-            .title(post.getTitle())
-            .content(post.getContent())
-            .commentResponseDtoList(commentResponseDtoList)
-            .author(post.getMember().getNickname())
-            .createdAt(post.getCreatedAt())
-            .modifiedAt(post.getModifiedAt())
-            .build()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .commentResponseDtoList(commentResponseDtoList)
+                .author(post.getMember().getNickname())
+                .heartNum(heartNum)
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
+                .build()
     );
   }
 

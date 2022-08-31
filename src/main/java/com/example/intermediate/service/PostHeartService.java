@@ -47,7 +47,8 @@ public class PostHeartService {
 
         PostHeart findPostHeart = postHeartRepository.findByPostIdAndMemberId(post.getId(), member.getId());
         if ( null != findPostHeart ) {
-            return  ResponseDto.fail("ALREADY_DONE", "이미 좋아요를 눌렀습니다.");
+            postHeartRepository.delete(findPostHeart);
+            return  ResponseDto.success("좋아요 취소");
         }
 
 
@@ -57,6 +58,7 @@ public class PostHeartService {
                 .build();
         postHeartRepository.save(postheart);
         return ResponseDto.success("게시글 좋아요 완료");
+
 
     }
     @Transactional

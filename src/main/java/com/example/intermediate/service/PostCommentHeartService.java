@@ -46,7 +46,8 @@ public class PostCommentHeartService {
         }
         PostCommentHeart checkHeart = postCommentHeartRepository.findByCommentIdAndMemberId(comment.getId(), member.getId());
         if ( null != checkHeart ) {
-            return  ResponseDto.fail("ALREADY_DONE", "이미 좋아요를 눌렀습니다.");
+            postCommentHeartRepository.delete(checkHeart);
+            return  ResponseDto.success( "좋아요 취소");
         }
 
 

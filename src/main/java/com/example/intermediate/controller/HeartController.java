@@ -6,10 +6,7 @@ import com.example.intermediate.service.PostCommentHeartService;
 import com.example.intermediate.service.PostHeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,4 +28,5 @@ public class HeartController {
                                           HttpServletRequest request) {
         return postCommentHeartService.createPostCommentHeart(requestDto, request);
     }
+
 }
