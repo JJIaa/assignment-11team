@@ -1,5 +1,6 @@
 package com.example.intermediate.service;
 
+import com.example.intermediate.controller.response.ReplyResponseDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.controller.response.CommentResponseDto;
 import com.example.intermediate.domain.Comment;
@@ -48,67 +49,29 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
-    Integer depth;
-    Long parent_comment_id;
-    if (requestDto.getParent_comment_id() == null) {
-      depth = 0;
-      parent_comment_id = null;
-      post.addComment();
-    } else {
-      Comment parent_comment = isParentComment(requestDto.getParent_comment_id());
-      depth = parent_comment.getDepth() + 1;
-      parent_comment_id = requestDto.getParent_comment_id();
-    }
+    // 댓글 수 수정
+    post.comment_cnt_Up();
 
     Comment comment = Comment.builder()
             .member(member)
             .post(post)
             .content(requestDto.getContent())
-            .depth(depth)
-            .parent_comment_id(parent_comment_id)
             .build();
     commentRepository.save(comment);
+
     return ResponseDto.success(
             CommentResponseDto.builder()
                     .id(comment.getId())
                     .author(comment.getMember().getNickname())
                     .content(comment.getContent())
-                    .depth(comment.getDepth())
-                    .parent_comment_id(comment.getParent_comment_id())
                     .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .build()
     );
   }
 
-  @Transactional(readOnly = true)
-  public ResponseDto<?> getAllCommentsByPost(Long postId) {
-    Post post = postService.isPresentPost(postId);
-    if (null == post) {
-      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
-    }
-
-    List<Comment> commentList = commentRepository.findAllByPost(post);
-    List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-
-    for (Comment comment : commentList) {
-      commentResponseDtoList.add(
-              CommentResponseDto.builder()
-                      .id(comment.getId())
-                      .author(comment.getMember().getNickname())
-                      .content(comment.getContent())
-                      .depth(comment.getDepth())
-                      .parent_comment_id(comment.getParent_comment_id())
-                      .createdAt(comment.getCreatedAt())
-                      .modifiedAt(comment.getModifiedAt())
-                      .build()
-      );
-    }
-    return ResponseDto.success(commentResponseDtoList);
-  }
-
   @Transactional
-  public ResponseDto<?> updateComment(Long id, CommentRequestDto requestDto, HttpServletRequest request) {
+  public ResponseDto<?> createReply(Long parent_id, CommentRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
               "로그인이 필요합니다.");
@@ -129,31 +92,60 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
-    Comment comment = isPresentComment(id);
-    if (null == comment) {
-      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
+    Comment parent = hasParentComment(parent_id);
+    if (parent.getParent() != null) {
+      return ResponseDto.fail("BAD REQUEST",
+              "대댓글에는 댓글을 달 수 없습니다.");
     }
 
-    if (comment.validateMember(member)) {
-      return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
-    }
+    Comment reply = Comment.builder()
+            .member(member)
+            .post(post)
+            .content(requestDto.getContent())
+            .parent(parent)
+            .replies(commentRepository.findAllByPostAndParent(post, parent))
+            .build();
+    commentRepository.save(reply);
 
-    comment.update(requestDto);
     return ResponseDto.success(
-            CommentResponseDto.builder()
-                    .id(comment.getId())
-                    .author(comment.getMember().getNickname())
-                    .content(comment.getContent())
-                    .depth(comment.getDepth())
-                    .parent_comment_id(comment.getParent_comment_id())
-                    .createdAt(comment.getCreatedAt())
-                    .modifiedAt(comment.getModifiedAt())
+            ReplyResponseDto.builder()
+                    .id(reply.getId())
+                    .parentId(reply.getParent().getId())
+                    .author(reply.getMember().getNickname())
+                    .content(reply.getContent())
+                    .createdAt(reply.getCreatedAt())
+                    .modifiedAt(reply.getModifiedAt())
                     .build()
     );
   }
 
+  @Transactional(readOnly = true)
+  public ResponseDto<?> getAllCommentsByPost(Long postId) {
+    Post post = postService.isPresentPost(postId);
+    if (null == post) {
+      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
+    }
+
+    List<Comment> commentList = commentRepository.findAllByPostAndParent(post, null);
+    List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+
+    for (Comment comment : commentList) {
+      commentResponseDtoList.add(
+              CommentResponseDto.builder()
+                      .id(comment.getId())
+                      .author(comment.getMember().getNickname())
+                      .content(comment.getContent())
+                      .createdAt(comment.getCreatedAt())
+                      .modifiedAt(comment.getModifiedAt())
+                      .replies(replyListExtractor(post, comment))
+                      .build()
+      );
+    }
+    return ResponseDto.success(commentResponseDtoList);
+  }
+
   @Transactional
-  public ResponseDto<?> deleteComment(Long id, HttpServletRequest request) {
+  public ResponseDto<?> updateComment(Long comment_id, CommentRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
               "로그인이 필요합니다.");
@@ -169,7 +161,51 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Comment comment = isPresentComment(id);
+    Post post = postService.isPresentPost(requestDto.getPostId());
+    if (null == post) {
+      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
+    }
+
+    Comment comment = isPresentComment(comment_id);
+    if (null == comment) {
+      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
+    }
+
+    if (comment.validateMember(member)) {
+      return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
+    }
+
+    comment.update(requestDto);
+    return ResponseDto.success(
+            CommentResponseDto.builder()
+                    .id(comment.getId())
+                    .author(comment.getMember().getNickname())
+                    .content(comment.getContent())
+                    .createdAt(comment.getCreatedAt())
+                    .modifiedAt(comment.getModifiedAt())
+                    .replies(replyListExtractor(post, comment))
+                    .build()
+    );
+  }
+
+  @Transactional
+  public ResponseDto<?> deleteComment(Long comment_id, HttpServletRequest request) {
+    if (null == request.getHeader("Refresh-Token")) {
+      return ResponseDto.fail("MEMBER_NOT_FOUND",
+              "로그인이 필요합니다.");
+    }
+
+    if (null == request.getHeader("Authorization")) {
+      return ResponseDto.fail("MEMBER_NOT_FOUND",
+              "로그인이 필요합니다.");
+    }
+
+    Member member = validateMember(request);
+    if (null == member) {
+      return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
+    }
+
+    Comment comment = isPresentComment(comment_id);
     if (null == comment) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
     }
@@ -179,9 +215,10 @@ public class CommentService {
     }
 
     Post post = comment.getPost();
-    if (comment.getDepth() == 0) {
-      post.deleteComment();   // 댓글 수 조정
+    if (comment.getParent() == null) {
+      post.comment_cnt_Down();
     }
+
     commentRepository.delete(comment);
 
     return ResponseDto.success("success");
@@ -194,9 +231,30 @@ public class CommentService {
   }
 
   @Transactional(readOnly = true)
-  public Comment isParentComment(Long parent_id) {
-    Optional<Comment> parentComment = commentRepository.findById(parent_id);
-    return parentComment.orElse(null);
+  public Comment hasParentComment(Long parent_id) {
+    Optional<Comment> parent = commentRepository.findById(parent_id);
+    return parent.orElse(null);
+  }
+
+  @Transactional
+  public List<ReplyResponseDto> replyListExtractor(Post post, Comment parent_comment) {
+
+    List<Comment> replyList = commentRepository.findAllByPostAndParent(post, parent_comment);
+    List<ReplyResponseDto> replyResponseDtoList = new ArrayList<>();
+
+    for (Comment reply : replyList) {
+      replyResponseDtoList.add(
+              ReplyResponseDto.builder()
+                      .id(reply.getId())
+                      .parentId(parent_comment.getId())
+                      .author(reply.getMember().getNickname())
+                      .content(reply.getContent())
+                      .createdAt(reply.getCreatedAt())
+                      .modifiedAt(reply.getModifiedAt())
+                      .build()
+      );
+    }
+    return replyResponseDtoList;
   }
 
   @Transactional
