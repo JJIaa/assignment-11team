@@ -31,7 +31,7 @@ public class Post extends Timestamped {
   @Column
   private Long heartNum;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
 
   @Column(nullable = false)
@@ -45,6 +45,9 @@ public class Post extends Timestamped {
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
+
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<PostHeart> postHeart;
 
   public void update(PostRequestDto postRequestDto, ImageResponseDto imageResponseDto) {
     this.title = postRequestDto.getTitle();
