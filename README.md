@@ -94,6 +94,6 @@
     - 매일 AM 01:00 마다 댓글이 0개인 게시물 전체 삭제하기
     - 삭제될 때마다 `"게시물 <{게시물 이름}>이 삭제되었습니다."` 라는 info level log 남기기
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd1268dc-eb30-4286-8c21-62ebf1979049/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/62546335/187889082-17354075-1ccc-4514-b79f-5696e5d85823.png)
         
     - cf. 스케줄러 example
