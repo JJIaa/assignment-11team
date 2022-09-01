@@ -14,6 +14,7 @@ public class PostController {
 
   private final PostService postService;
 
+  //(value="file",required = false)
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
   public ResponseDto<?> createPost(@RequestPart PostRequestDto requestDto, @RequestPart MultipartFile multipartFile,
       HttpServletRequest request) {
@@ -31,9 +32,9 @@ public class PostController {
   }
 
   @RequestMapping(value = "/api/auth/post/{id}", method = RequestMethod.PUT)
-  public ResponseDto<?> updatePost(@PathVariable Long id, @RequestPart PostRequestDto postRequestDto, @RequestPart MultipartFile multipartFile,
+  public ResponseDto<?> updatePost(@PathVariable Long id, @RequestPart PostRequestDto requestDto, @RequestPart MultipartFile multipartFile,
       HttpServletRequest request) {
-    return postService.updatePost(id, postRequestDto, multipartFile, request);
+    return postService.updatePost(id, requestDto, multipartFile, request);
   }
 
   @RequestMapping(value = "/api/auth/post/{id}", method = RequestMethod.DELETE)

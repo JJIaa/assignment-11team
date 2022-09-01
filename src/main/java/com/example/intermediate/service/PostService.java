@@ -134,14 +134,13 @@ public class PostService {
   public ResponseDto<?> getAllPost() {
 
     List<Post> allPosts = postRepository.findAllByOrderByModifiedAtDesc();
-    List<PostResponseDto> postResponseDtoList = new ArrayList<>();
+    List<GetAllPostResponseDto> getAllPostResponseDtoList = new ArrayList<>();
 
     for (Post post : allPosts) {
-      postResponseDtoList.add(
-              PostResponseDto.builder()
+      getAllPostResponseDtoList.add(
+              GetAllPostResponseDto.builder()
                       .id(post.getId())
                       .title(post.getTitle())
-                      .content(post.getContent())
                       .author(post.getMember().getNickname())
                       .heartNum(postHeartRepository.countAllByPostId(post.getId()))
                       .comment_cnt(post.getComment_cnt())
@@ -150,7 +149,7 @@ public class PostService {
                       .build()
       );
     }
-    return ResponseDto.success(postResponseDtoList);
+    return ResponseDto.success(getAllPostResponseDtoList);
   }
 
   @Transactional
@@ -185,13 +184,14 @@ public class PostService {
       return ResponseDto.fail("INVALID_FILE", "파일이 유효하지 않습니다.");
     }
     ImageResponseDto imageResponseDto = null;
-    try {
-      FileName = s3UploaderService.uploadFile(multipartFile, "image");
-      imageResponseDto = new ImageResponseDto(FileName);
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (!multipartFile.isEmpty()) {
+      try {
+        FileName = s3UploaderService.uploadFile(multipartFile, "image");
+        imageResponseDto = new ImageResponseDto(FileName);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
-
 
     assert imageResponseDto != null;
     post.update(requestDto, imageResponseDto);
