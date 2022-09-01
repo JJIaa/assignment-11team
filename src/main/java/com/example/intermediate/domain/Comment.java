@@ -43,6 +43,9 @@ public class Comment extends Timestamped {
 
   @OneToMany(mappedBy = "parent", orphanRemoval = true)
   private List<Comment> replies = new ArrayList<>();
+  
+  @OneToMany(mappedBy = "comment", orphanRemoval = true)
+  private List<PostCommentHeart> postcommentHeart;
 
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
