@@ -53,13 +53,13 @@ public class PostService {
     if (multipartFile.isEmpty()) {
       return ResponseDto.fail("INVALID_FILE", "파일이 유효하지 않습니다.");
     }
-    ImageResponseDto imageResponseDto = null;
-    try {
-      FileName = s3UploaderService.uploadFile(multipartFile, "image");
-      imageResponseDto = new ImageResponseDto(FileName);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+      ImageResponseDto imageResponseDto = null;
+      try {
+        FileName = s3UploaderService.uploadFile(multipartFile, "image");
+        imageResponseDto = new ImageResponseDto(FileName);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
 
 
     assert imageResponseDto != null;
