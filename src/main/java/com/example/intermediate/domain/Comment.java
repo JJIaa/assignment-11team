@@ -33,6 +33,9 @@ public class Comment extends Timestamped {
   @Column(nullable = false)
   private String content;
 
+  @Column
+  private Long heartNum;
+
   @JoinColumn(name = "parent_id")
   @ManyToOne(fetch = FetchType.LAZY)
   @JsonIgnore

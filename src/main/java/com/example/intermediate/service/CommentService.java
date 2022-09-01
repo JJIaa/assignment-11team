@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
+import com.example.intermediate.repository.PostCommentHeartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
   private final CommentRepository commentRepository;
+  private final PostCommentHeartRepository postCommentHeartRepository;
 
   private final TokenProvider tokenProvider;
   private final PostService postService;
@@ -64,6 +66,7 @@ public class CommentService {
                     .id(comment.getId())
                     .author(comment.getMember().getNickname())
                     .content(comment.getContent())
+                    .heartNum(comment.getHeartNum())
                     .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .build()
@@ -113,6 +116,7 @@ public class CommentService {
                     .parentId(reply.getParent().getId())
                     .author(reply.getMember().getNickname())
                     .content(reply.getContent())
+                    .heartNum(reply.getHeartNum())
                     .createdAt(reply.getCreatedAt())
                     .modifiedAt(reply.getModifiedAt())
                     .build()
@@ -135,6 +139,7 @@ public class CommentService {
                       .id(comment.getId())
                       .author(comment.getMember().getNickname())
                       .content(comment.getContent())
+                      .heartNum(postCommentHeartRepository.countAllByCommentId(comment.getId()))
                       .createdAt(comment.getCreatedAt())
                       .modifiedAt(comment.getModifiedAt())
                       .replies(replyListExtractor(post, comment))
@@ -175,12 +180,14 @@ public class CommentService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
+
     comment.update(requestDto);
     return ResponseDto.success(
             CommentResponseDto.builder()
                     .id(comment.getId())
                     .author(comment.getMember().getNickname())
                     .content(comment.getContent())
+                    .heartNum(postCommentHeartRepository.countAllByCommentId(comment.getId()))
                     .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .replies(replyListExtractor(post, comment))

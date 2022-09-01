@@ -17,6 +17,7 @@ public class CommentResponseDto {
   private Long id;
   private String author;
   private String content;
+  private Long heartNum;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
   private List<ReplyResponseDto> replies;

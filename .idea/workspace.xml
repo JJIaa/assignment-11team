@@ -5,36 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bac3fd81-5723-4193-acec-0c188b64150c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/ReplyResponseDto$ReplyResponseDtoBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/ReplyResponseDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/response/ReplyResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.5/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/MyPageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/response/MypageResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/service/MyPageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/CommentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/CommentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/request/CommentRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/request/CommentRequestDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/CommentResponseDto$CommentResponseDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/CommentResponseDto$CommentResponseDtoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/CommentResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/CommentResponseDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/PostResponseDto$PostResponseDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/PostResponseDto$PostResponseDtoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/PostResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/controller/response/PostResponseDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/domain/Comment$CommentBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/domain/Comment$CommentBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/domain/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/domain/Comment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/domain/Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/domain/Post.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/repository/CommentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/repository/CommentRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/service/CommentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/service/CommentService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/service/PostService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/intermediate/service/PostService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/request/CommentRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/request/CommentRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/response/CommentResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/response/CommentResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/response/PostResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/controller/response/PostResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/domain/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/domain/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/domain/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/domain/Post.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/CommentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/service/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/PostCommentHeartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/PostCommentHeartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/PostHeartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/PostHeartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/intermediate/repository/PostRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,30 +78,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelOrder2": "2",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RequestMappingsPanelWidth2": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "H:/취업/#00. SW 개발/#03_Experiences & Study/#07_이노베이션 캠프 in 서울/#02_assignments/5주차_Spring 심화/assignment-11team",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "spring.configuration.checksum": "2bf8c2267cd13ca0cf3502a0319f5936"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelOrder2&quot;: &quot;2&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth2&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/취업/#00. SW 개발/#03_Experiences &amp; Study/#07_이노베이션 캠프 in 서울/#02_assignments/5주차_Spring 심화/assignment-11team/src/main/java/com/example/intermediate/service&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;2bf8c2267cd13ca0cf3502a0319f5936&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\취업\#00. SW 개발\#03_Experiences &amp; Study\#07_이노베이션 캠프 in 서울\#02_assignments\5주차_Spring 심화\assignment-11team\src\main\java\com\example\intermediate\service" />
+      <recent name="H:\취업\#00. SW 개발\#03_Experiences &amp; Study\#07_이노베이션 캠프 in 서울\#02_assignments\5주차_Spring 심화\assignment-11team\src\main\java\com\example\intermediate\repository" />
+      <recent name="H:\취업\#00. SW 개발\#03_Experiences &amp; Study\#07_이노베이션 캠프 in 서울\#02_assignments\5주차_Spring 심화\assignment-11team\src\main\java\com\example\intermediate\domain" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.intermediate.controller" />
+      <recent name="com.example.intermediate.controller.request" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="IntermediateApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="intermediate.main" />
